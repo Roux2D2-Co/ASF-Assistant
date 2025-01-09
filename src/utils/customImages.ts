@@ -1,5 +1,5 @@
 import { Client, GuildMember } from 'discord.js'
-import { createReadStream, createWriteStream } from 'fs'
+import { createReadStream, createWriteStream, existsSync } from 'fs'
 import * as PImage from 'pureimage'
 import { downloadGuildMemberProfilePicture } from './discord.js'
 
@@ -30,7 +30,7 @@ function applyCircularMask(ctx : PImage.Context, imageBitmap: PImage.Bitmap) : P
         // Utiliser la valeur du masque (noir ou blanc) comme alpha
         imageData.data[i + 3] = maskData.data[i]; // Le canal rouge du masque comme alpha
     }
-    
+    ctx.clearRect(0,0,imageBitmap.width, imageBitmap.height)
     ctx.putImageData(imageData, 0, 0);
     
     // Sauvegarder le résultat
@@ -42,11 +42,15 @@ export async function GenerateMemberJoinImage (member: GuildMember) {
   const c = canvas.getContext('2d')
   c.clearRect(0, 0, canvas.width, canvas.height)
 
-  const backgroundReadStream = createReadStream(
-    `assets/images/welcome_background.png`
-  )
+  const backgroundImagePath = `assets/images/welcome_backgrounds/${member.guild.id}.png`
+  if(!existsSync(backgroundImagePath)) throw new Error(`Image doesn't exists for guild '${member.guild.name}' (${member.guild.id})`)
+  const backgroundReadStream = createReadStream(backgroundImagePath)
   const backgroundImage = await PImage.decodePNGFromStream(backgroundReadStream)
   backgroundReadStream.close()
+
+  const backgroundImageFillColor = backgroundImage.getPixelRGBA(10,10);
+  console.log(backgroundImageFillColor)
+
 
   const memberProfilePicturePath = await downloadGuildMemberProfilePicture(
     member
@@ -60,6 +64,21 @@ export async function GenerateMemberJoinImage (member: GuildMember) {
   )
   memberProfilePictureReadStream.close()
 
+  c.fillStyle = `#${backgroundImageFillColor.toString(16)}`
+  await c.fillRect(0,0,backgroundImage.width, backgroundImage.height)
+
+  await c.drawImage(
+    memberProfilePicture,
+    0,
+    0,
+    memberProfilePicture.width,
+    memberProfilePicture.height,
+    35,
+    22,
+    256,
+    256
+  )
+
   // Temporary hack, seems to fix image bugs
   // await c.drawImage(backgroundImage, 0, 0)
   c.drawImage(
@@ -68,21 +87,6 @@ export async function GenerateMemberJoinImage (member: GuildMember) {
     -1,
     backgroundImage.width + 1,
     backgroundImage.height + 1
-  )
-
-  const maskCanvas = PImage.make(memberProfilePicture.width, memberProfilePicture.height);
-  applyCircularMask(maskCanvas.getContext('2d'), memberProfilePicture);
-
-  await c.drawImage(
-    maskCanvas,
-    0,
-    0,
-    maskCanvas.width,
-    maskCanvas.height,
-    33,
-    22,
-    256,
-    256
   )
 
   const imageName = `./assets/images/tmp/welcome-${member.id}-${member.guild.id}.png`

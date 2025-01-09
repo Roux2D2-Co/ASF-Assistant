@@ -21,8 +21,6 @@ let clientOptions: discord.ClientOptions = {
 }
 
 export const client = new discord.Client(clientOptions)
-client.config = JSON.parse(readFileSync('./config.json').toString())
-
 // dbInit().then(async () => {
 EventLoader.loadEvents()
   .then(() => {
