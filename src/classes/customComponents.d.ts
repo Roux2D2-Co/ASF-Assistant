@@ -1,9 +1,11 @@
+import { InteractionContextType } from "discord.js";
 import { client } from "src/index";
 
 declare module "discord.js" {
 	export interface BaseApplicationCommandData {
 		execute: (interaction: Interaction, ...args: any[]) => Promise<void | any>;
 		guilds?: Array<Snowflake>;
+		contexts?: InteractionContextType[]
 	}
 
 	export interface ApplicationCommandSubCommandData {

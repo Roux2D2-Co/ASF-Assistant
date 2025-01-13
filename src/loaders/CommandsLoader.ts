@@ -7,6 +7,7 @@ export class Loader {
 	private static commandsFolder = resolve(__dirname, "../interactions/Commands");
 	private static componentsFolder = resolve(__dirname, "../interactions/Components");
 	public static async loadCommands({ deleteUnknownCommands = false }): Promise<void> {
+		if(!client.application) throw new Error("Client Application not available")
 		if (!fs.existsSync(this.commandsFolder)) throw new Error("Commands folder not found !");
 
 		const folders = fs.readdirSync(this.commandsFolder);
@@ -72,14 +73,15 @@ export class Loader {
 			}
 		}
 
-		let clientCommands = await client.application?.commands.fetch();
+		let clientCommands = await client.application.commands.fetch();
 		for (const command of clientCommands?.values() ?? []) {
 			let c = globalCommands?.find((c) => c.name == command.name);
 			if (!c) {
 				globalCommands.push(command.toJSON() as ApplicationCommandData);
 			}
 		}
-		await client.application?.commands.set(globalCommands);
+		await client.application.commands.set(globalCommands);
+		console.log(`${globalCommands.length} commands loaded globally`)
 	}
 	public static async loadComponents(): Promise<void> {
 		if (!fs.existsSync(this.componentsFolder)) throw new Error("Components folder not found !");
