@@ -7,10 +7,8 @@ export default async (
   newMember: GuildMember,
 ) => {
   try {
-    const guildConfigFilePath = `assets/configs/${newMember.guild.id}.json`
-    if (!existsSync(guildConfigFilePath)) return
-    const guildSettings = JSON.parse(readFileSync(guildConfigFilePath, "utf-8"))
-
+    const guildSettings = client.config[newMember.guild.id];
+    if(!guildSettings) return console.error(`Pas de config trouvé pour le serveur ${newMember.guild.name}`)
     const welcomeChannel = await newMember.guild.channels.fetch(guildSettings.NEW_MEMBER_CHANNEL_ID)
     const welcomeImagePath = await GenerateMemberJoinImage(newMember)
     const welcomeImage = readFileSync(welcomeImagePath)

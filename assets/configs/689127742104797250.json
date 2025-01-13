@@ -1,4 +1,10 @@
 {
   "NEW_MEMBER_CHANNEL_ID": "1092895528871796736",
-  "NEW_MEMBER_WELCOME_MESSAGE": "{{member}} ceci est un message de test !!"
+  "NEW_MEMBER_WELCOME_MESSAGE": "{{member}} ceci est un message de test !!",
+  "VOICE_CHANNEL_GENERATORS": [
+    {
+      "generatorId":"1016057332477726820",
+      "nameTemplate":"🦺│𝐂𝐨𝐦𝐥𝐢𝐧𝐤 {{number}}"
+    }
+  ]
 }

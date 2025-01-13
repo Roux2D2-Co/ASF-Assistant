@@ -8,7 +8,7 @@ import { readFileSync } from 'fs'
 
 config({ path: resolve(__dirname, '../.env') })
 let clientOptions: discord.ClientOptions = {
-  intents: ['GuildMembers', 'Guilds'],
+  intents: ['GuildMembers', 'Guilds', 'GuildVoiceStates'],
   presence: {
     status: 'dnd',
     activities: [
