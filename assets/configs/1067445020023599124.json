@@ -3,8 +3,8 @@
   "NEW_MEMBER_WELCOME_MESSAGE": "Bienvenue sur le Discord de l'ASF {{member}}",
   "VOICE_CHANNEL_GENERATORS": [
     {
-      "generatorId":"1309221539312570389",
-      "nameTemplate":"⭐│𝐂𝐨𝐦𝐥𝐢𝐧𝐤 {{number}}"
+      "generatorId":"1070987878559121538",
+      "nameTemplate":"🔊│𝐂𝐨𝐦𝐥𝐢𝐧𝐤 𝐩𝐮𝐛𝐥𝐢𝐜 {{number}}"
     }
   ]
 }
