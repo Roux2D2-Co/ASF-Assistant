@@ -1,4 +1,10 @@
 {
   "NEW_MEMBER_CHANNEL_ID": "1070991043983593492",
-  "NEW_MEMBER_WELCOME_MESSAGE": "Bienvenue sur le Discord de l'ASF {{member}}"
+  "NEW_MEMBER_WELCOME_MESSAGE": "Bienvenue sur le Discord de l'ASF {{member}}",
+  "VOICE_CHANNEL_GENERATORS": [
+    {
+      "generatorId":"1016057332477726820",
+      "nameTemplate":"⭐│𝐂𝐨𝐦𝐥𝐢𝐧𝐤 {{number}}"
+    }
+  ]
 }
