@@ -76,8 +76,9 @@ export default async (
         )
         if (newChannelNumber < 0) {
           newChannelNumber = voiceChannelGenerator.childs.length
-          voiceChannelGenerator.childs.push(true)
         }
+        
+        voiceChannelGenerator.childs[newChannelNumber] = true
 
         const newChannelName = voiceChannelGenerator.nameTemplate.replace(
           '{{number}}',
